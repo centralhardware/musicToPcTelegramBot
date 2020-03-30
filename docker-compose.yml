@@ -1,6 +1,7 @@
 version: '3'
 services:
   bot:
+    name: downloader_bot
     build: .
     volumes:
       - ./music:/music
