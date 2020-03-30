@@ -1,7 +1,9 @@
 package ru.centralhardware.musicDownloaderBot;
 
 import lombok.extern.log4j.Log4j;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,13 +19,24 @@ public class Bot extends TelegramLongPollingBot {
 
     private final Youtube youtube;
 
+
+
     /**
      * run bot
      */
     public static void run(){
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(new Bot());
+            if (Config.isUseProxy){
+                log.info("use proxy socks5://"+Config.proxyHost+":"+Config.proxyPort);
+                DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+                botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+                botOptions.setProxyPort(Config.proxyPort);
+                botOptions.setProxyHost(Config.proxyHost);
+                telegramBotsApi.registerBot(new Bot(botOptions));
+            } else {
+                telegramBotsApi.registerBot(new Bot());
+            }
             log.info("bot register");
         } catch (TelegramApiRequestException e) {
             log.fatal("bot register fail", e);
@@ -34,6 +47,11 @@ public class Bot extends TelegramLongPollingBot {
      * init youtube-dl
      */
     public Bot() {
+        this.youtube = new Youtube(this);
+    }
+
+    public Bot(DefaultBotOptions defaultBotOptions){
+        super(defaultBotOptions);
         this.youtube = new Youtube(this);
     }
 
