@@ -63,7 +63,7 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()){
             if (Url.validate(update.getMessage().getText())){
                 Thread thread = new Thread(() -> {
-                    log.info("star processing " + update.getMessage().getText());
+                    log.info("start processing " + update.getMessage().getText());
                     sendReplyMessage("начато скачивание", update.getMessage().getMessageId(), update.getMessage().getChatId());
                     youtube.download(Url.trim(update.getMessage().getText()), update.getMessage().getMessageId(), update.getMessage().getChatId());
                 });
