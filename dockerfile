@@ -14,7 +14,7 @@ RUN mvn package
 FROM openjdk:14-alpine
 
 
-COPY --from=maven target/musicToPcDownloaderTelegramBot-1.0-SNAPSHOT-jar-with-dependencies.jar .
+COPY --from=maven target/musicToPcDownloaderTelegramBot-2.0-SNAPSHOT-jar-with-dependencies.jar .
 
 RUN set -x \
     && apk add --no-cache ca-certificates curl ffmpeg python gnupg \
@@ -38,4 +38,4 @@ RUN set -x \
     && chmod 777 /.cache
 
 
-CMD ["java", "-jar", "musicToPcDownloaderTelegramBot-1.0-SNAPSHOT-jar-with-dependencies.jar"]
+CMD ["java", "-jar", "musicToPcDownloaderTelegramBot-2.0-SNAPSHOT-jar-with-dependencies.jar"]

@@ -10,6 +10,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * telegram bot class
  * @author centralhardware
@@ -18,8 +22,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 public class Bot extends TelegramLongPollingBot {
 
     private final Youtube youtube;
-
-
 
     /**
      * run bot
@@ -43,17 +45,25 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+
     /**
      * init youtube-dl
      */
     public Bot() {
         this.youtube = new Youtube(this);
+        executorService = Executors.newFixedThreadPool(3);
     }
 
+    /**
+     * @param defaultBotOptions proxy param
+     */
     public Bot(DefaultBotOptions defaultBotOptions){
         super(defaultBotOptions);
         this.youtube = new Youtube(this);
+        executorService = Executors.newFixedThreadPool(3);
     }
+
+    private final ExecutorService executorService;
 
     /**
      * processing receiving message
@@ -62,12 +72,13 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()){
             if (Url.validate(update.getMessage().getText())){
-                Thread thread = new Thread(() -> {
+                Callable<Void> task = () -> {
                     log.info("start processing " + update.getMessage().getText());
                     sendReplyMessage("начато скачивание", update.getMessage().getMessageId(), update.getMessage().getChatId());
                     youtube.download(Url.trim(update.getMessage().getText()), update.getMessage().getMessageId(), update.getMessage().getChatId());
-                });
-                thread.start();
+                    return null;
+                };
+                executorService.submit(task);
             }
         }
     }
