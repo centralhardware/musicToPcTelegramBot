@@ -8,7 +8,7 @@ youtube-dl repo now is deleted from github and I'm not sure if the project will 
 
 ## before 
 
-(create new bot)[https://core.telegram.org/bots#creating-a-new-bot]
+[create new bot](https://core.telegram.org/bots#creating-a-new-bot)
 
 ## how to 
 
