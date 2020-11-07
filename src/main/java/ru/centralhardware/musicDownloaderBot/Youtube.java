@@ -46,7 +46,7 @@ public class Youtube {
         request.setOption("audio-format", "mp3");
         try {
             YoutubeDL.execute(request);
-            bot.sendReplyMessage("файл скачан успешно", messageId, chatId);
+            bot.sendReplyMessage("file download successfully", messageId, chatId);
             log.info("finish processing " + url);
         } catch (YoutubeDLException e) {
             log.warn("download music fail", e);
