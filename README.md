@@ -21,7 +21,7 @@ sudo docker-composy build
 sudo docker-compose up -t
 ```
 
-## usege 
+## usage 
 
 send bot link to youtube (if you send link to playlist only the current video will be downloaded, not the entire playlist)
 wait for finish message
