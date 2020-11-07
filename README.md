@@ -1,8 +1,6 @@
 ## how to 
 
-createa and fill .env
-
-set username and token in musicToPcTelegramBot/src/main/resources/config.properties
+create and fil musicToPcTelegramBot/src/main/resources/config.properties (see example in config.properties.example) 
 
 ```bash
 sudo docker-composy build
