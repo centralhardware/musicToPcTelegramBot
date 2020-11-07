@@ -1,0 +1,6 @@
+username={bot_username}
+token={bot_token}
+isTesting=false
+isUseProxy=false
+proxyHost={proxy_url}
+proxyPort={proxy_port}
